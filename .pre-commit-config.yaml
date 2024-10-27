@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.5
+    rev: eb1df347edd128b30cd3368dddc3aa65edcfac38
     hooks:
       - id: docformatter
         args: [--in-place, --wrap-descriptions=79, --style=google]
@@ -13,7 +13,7 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.9.0
     hooks:
       - id: nbqa-black
         name: nbqa-black
@@ -39,7 +39,7 @@ repos:
         additional_dependencies:
           - black==24.2.0
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.9.0
     hooks:
       - id: nbqa-pyupgrade
         name: nbqa-pyupgrade
@@ -75,15 +75,16 @@ repos:
         additional_dependencies:
           - tomli
         args:
-          - --ignore-regex=^\s*"image\/png":\s.*
+          - --ignore-regex=^\s*"image\/(jpeg|png|gif|bmp|tiff)":\s.*
+          - --ignore-regex=[A-Za-z0-9+/]{100,}
           - --skip=*.js,*.html,*.css,*.svg",*.json,*.png,*.jpg,*.yml,*.yaml
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.9.0
     hooks:
       - id: nbqa-flake8
         args:
-          - --ignore=E501,E712,W291,F632,E203
-          - --exclude=.*
+          - --ignore=E501,E712,W291,F632,E203,F821,F403
+          - --exclude=.*,__init__.py
         name: nbqa-flake8
         description: Run 'flake8' on a Jupyter Notebook
         entry: nbqa flake8
@@ -100,15 +101,15 @@ repos:
     hooks:
       - id: flake8
         args:
-          - --ignore=E501,E712,W291,F632,E203
-          - --exclude=.*
+          - --ignore=E501,E712,W291,F632,E203,F821,F403
+          - --exclude=.*,__init__.py
         additional_dependencies:
           - flake8-variables-names
           - pep8-naming
           - flake8-functions-names
 
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.9.0
     hooks:
       - id: nbqa-mypy
         name: nbqa-mypy
@@ -127,6 +128,9 @@ repos:
           - types-setuptools
 
         args:
+          # - --cache-dir=/dev/null
+          # - --cache-dir=nul
+          # - --no-incremental
           - --non-interactive
           - --install-types
           - --explicit-package-bases
@@ -145,6 +149,7 @@ repos:
           - --warn-unreachable
           - --warn-redundant-casts
           - --warn-return-any
+          - --disallow-any-explicit
 
 
 
@@ -153,6 +158,9 @@ repos:
     hooks:
       - id: mypy
         args:
+          # - --cache-dir=/dev/null
+          # - --cache-dir=nul
+          # - --no-incremental
           - --non-interactive
           - --install-types
           - --explicit-package-bases
@@ -171,6 +179,7 @@ repos:
           - --warn-unreachable
           - --warn-redundant-casts
           - --warn-return-any
+          - --disallow-any-explicit
 
 
         additional_dependencies:
@@ -183,7 +192,7 @@ repos:
           - types-setuptools
 
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.9.0
     hooks:
       - id: nbqa-pylint
         name: nbqa-pylint
@@ -194,10 +203,10 @@ repos:
         types_or: [jupyter, markdown]
         additional_dependencies: [pylint]
         args:
-          - --ignore=no_check*
+          - --ignore=no_check*,__init__.py
           - --max-line-length=79
           - --const-naming-style=any
-          - --disable=E0401,W0104,R0903
+          - --disable=E0401,W0104,R0903,R1721
 
   - repo: https://github.com/pre-commit/mirrors-pylint
     rev: v2.3.1
@@ -209,15 +218,15 @@ repos:
         types: [python]
         args:
           [
-            "--ignore=no_check*",
+            "--ignore=no_check*,__init__.py",
             "--max-line-length=79",
             "--const-naming-style=any",
-            "--disable=E0401,W0104,R0903",
+            "--disable=E0401,W0104,R0903,R1721",
           ]
         additional_dependencies: [pylint]
 
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.8.5
+    rev: 1.9.0
     hooks:
       - id: nbqa-pydocstyle
         name: nbqa-pydocstyle
